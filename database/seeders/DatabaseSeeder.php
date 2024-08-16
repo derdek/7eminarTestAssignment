@@ -13,11 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $users = User::factory(4)->create();
+        foreach ($users as $user) {
+            $orders = rand(1, 5);
+            for ($i = 0; $i < $orders; $i++) {
+                $order = $user->orders()->create();
+                $products = rand(1, 5);
+                for ($j = 0; $j < $products; $j++) {
+                    $order->products()->create(['name' => fake()->word()]);
+                }
+            }
+        }
     }
 }
